@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html,body{
+            height:100%;
+            width:100%;
+        }
+        div{
+            width:250px;
+            height:200px;
+            position:absolute;
+            top:50%;
+            margin-top:-100px;
+            left:50%;
+            margin-left:-150px;
+        }
+        .imgpicture{
+            transition: All 0.4s ease-in-out;
+            -webkit-transition: All 0.4s ease-in-out;
+            -moz-transition: All 0.4s ease-in-out;
+            -o-transition: All 0.4s ease-in-out;
+            border-radius:50%;
+        }
+        .imgpicture:hover{
+            transform: rotate(360deg) scale(1.2);
+            -webkit-transform: rotate(360deg) scale(1.2);
+            -moz-transform: rotate(360deg) scale(1.2);
+            -o-transform: rotate(360deg) scale(1.2);
+            -ms-transform: rotate(360deg) scale(1.2);
+        }
+    </style>
+</head>
+<body>
+    <div>
+    <img class="imgpicture" src="橘猫沙梨.jpg" />
+    </div>
+</body>
+</html>
