@@ -1,0 +1,146 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>专门给lsp做的看美女网站</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <style>
+    .imgview {
+    width: 255px;
+    height: 402px;
+    margin: 50px auto;
+    border: 10px solid red;
+    overflow: hidden;
+    }
+    .imgview img {
+    width: 255px;
+    height: 402px;
+    }
+    .imgview-nav {
+    width: 255px;
+    margin: 10px auto;
+    border: 1px solid red;
+    list-style-type: none;
+    }
+    .imgview-nav li {
+    float: left;
+    width: 15px;
+    height: 15px;
+    border: 1px solid blue;
+    margin: 10px;
+    }
+    span {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #CFC;
+    border-radius: 50%;
+    }
+    </style>
+
+<body>
+<p>
+      <h1>！！！我知道你爱看！！！</h1>
+</p>
+<div class="wrap">
+<div class="imgview" id="imgView">
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td><img src="Picture/WebPicture/1.jpeg" alt=""></td>
+<td><img src="Picture/WebPicture/2.jpeg" alt=""></td>
+<td><img src="Picture/WebPicture/3.jpeg" alt=""></td>
+<td><img src="Picture/WebPicture/4.jpeg" alt=""></td>
+<td><img src="Picture/WebPicture/5.jpeg" alt=""></td>
+<td><img src="Picture/WebPicture/6.jpeg" alt=""></td>
+</tr>
+</table>
+</div>
+<ul class="imgview-nav" id="imgviewNav">
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+<li>6</li>
+</ul>
+<span>左边</span>
+<span>右边</span>
+</div>
+<script>
+var imgView = document.getElementById('imgView'),
+imgWidth = imgView.getElementsByTagName('img'),
+btn = document.getElementsByTagName('li'),
+len = btn.length,
+imgNum = 0,
+endPos = 0,
+timer = null,
+timer2 = null,
+conSpan = document.getElementsByTagName('span');
+conSpan[0].onclick = function (){
+if (timer) {
+clearInterval(timer);
+};
+if (timer2) {
+clearInterval(timer2);
+};
+imgNum--;
+if (imgNum < 0 ) {
+imgNum = len;
+};
+timer = setInterval(move, 16);
+timer2 = setInterval(autoMove, 3000);
+}
+conSpan[1].onclick = function (){
+if (timer) {
+clearInterval(timer);
+};
+if (timer2) {
+clearInterval(timer2);
+};
+imgNum++;
+if (imgNum == len ) {
+imgNum = 0;
+};
+timer = setInterval(move, 16);
+timer2 = setInterval(autoMove, 3000);
+}
+//绑定事件。添加移动效果
+for (var i = 0; i < len; i++) {
+btn[i].index = i;
+btn[i].onmouseover = function(){
+clearInterval(timer2);
+imgNum = this.index;
+if (timer) {
+clearInterval(timer);
+};
+timer = setInterval(move, 16);
+}
+btn[i].onmouseout = function(){
+timer2 = setInterval(autoMove, 2000);
+}
+};
+//图片缓动效果，原理是保持步数不变，改变距离的同时改变速度
+function move(){
+var starPos = imgView.scrollLeft,
+speed;
+endPos = imgNum * imgWidth[0].offsetWidth;
+speed = (endPos - starPos) / 20;
+if (speed == 0) {
+clearInterval(timer);
+} else if(speed > 0){
+speed = Math.ceil(speed);
+} else {
+speed = Math.floor(speed);
+}
+imgView.scrollLeft = starPos + speed;
+}
+//控制图片的自动滚动，通过控制索引值来控制图片的自动滚动
+function autoMove(){
+imgNum++;
+if(imgNum == len) {
+imgNum = 0;
+};
+timer = setInterval(move, 20);
+}timer2 = setInterval(autoMove, 2000);
+</script>
+</body>
+</html>
