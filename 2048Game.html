@@ -1,0 +1,279 @@
+<!doctype html>
+<meta name="author" content="XYH"/>
+<meta name="keywords" content="2048"/>
+<meta http-equiv="content-Type" content="text/html;charset=utf-8"/>
+
+
+<html>
+<head>
+<title>2048小游戏</title>
+<style>
+.up,.down,.left,.right{
+font-size:30px;
+
+
+}
+canvas{
+border-style:solid;
+float:left;
+}
+.right{float:left;
+margin-top:80px;
+margin-left:400px;
+height:100px;
+width:50px;
+}
+.down,.up{
+
+margin-left:550px;
+}
+.left{
+margin-top:80px;
+margin-bottom:100px;
+
+}
+
+</style>
+</head>
+
+
+<body>
+<h1 align=center>2048小游戏</h1>
+<div class="down" onclick="down()">下</div>
+<div class="right" onclick="right()">右</div>
+<canvas id="drawing" height=200px width=200px ></canvas>
+<div class="left" onclick="left()">左</div>
+<div class="up" onclick="up()">上</div>
+<script>
+var tArray=new Array();
+for(var i=0;i<4;i++){
+tArray[i]=new Array();
+for(var t=0;t<4;t++){
+tArray[i][t]="";
+}
+}
+var locx;var locy;
+function produce(){
+locx=Math.ceil(Math.random()*4-1);
+locy=Math.ceil(Math.random()*4-1);
+if(locx==-1||locy==-1||tArray[locx][locy]!=""){
+produce();
+}
+}
+produce();
+tArray[locx][locy]=2;
+produce();
+tArray[locx][locy]=4;
+var drawing=document.getElementById("drawing");
+if(drawing.getContext){
+var context=drawing.getContext("2d");
+context.beginPath();
+context.lineWidth=0.25;
+for(var t2=0;t2<3;t2++){
+context.moveTo(50+t2*50,0);
+context.lineTo(50+t2*50,200);
+}
+for(var i2=0;i2<3;i2++){
+context.moveTo(0,50+i2*50);
+context.lineTo(200,50+i2*50);
+}
+
+context.stroke();
+
+
+
+}
+
+function display(){
+for(var t1=0;t1<4;t1++){
+for(var i1=0;i1<4;i1++){
+context.clearRect(50*t1,50*i1,50,50);
+context.strokeRect(50*t1,50*i1,50,50);
+context.fillText(tArray[t1][i1],20+50*t1,30+50*i1);
+}
+}
+
+}
+display();
+var zeno=0;
+function down(){
+
+for(var t3=0;t3<4;t3++){
+for(var i3=0;i3<4;i3++){
+if(tArray[t3][i3]==""){
+zeno++;
+}
+else if((zeno!=0)&&(i3>zeno)&&(tArray[t3][i3-1-zeno]==tArray[t3][i3])){
+tArray[t3][i3-1-zeno]=tArray[t3][i3-1-zeno]+tArray[t3][i3];
+tArray[t3][i3]="";
+zeno++;
+}
+else{
+
+if(tArray[t3][i3+1]==tArray[t3][i3]){
+tArray[t3][i3]=tArray[t3][i3]+tArray[t3][i3+1];
+tArray[t3][i3+1]="";
+
+}
+
+
+if(zeno!=0){
+tArray[t3][i3-zeno]=tArray[t3][i3];
+tArray[t3][i3]="";
+}
+
+
+}
+
+
+
+
+
+}
+
+
+zeno=0;
+}
+output();
+display();
+zeno=0;
+}
+
+function up(){
+for(var t3=0;t3<4;t3++){
+for(var i3=3;i3>=0;i3--){
+if(tArray[t3][i3]==""){
+zeno++;
+}
+else if((zeno!=0)&&(tArray[t3][i3+1+zeno]==tArray[t3][i3])){
+tArray[t3][i3+1+zeno]=tArray[t3][i3+1+zeno]+tArray[t3][i3];
+tArray[t3][i3]="";
+zeno++;
+}
+else{
+
+if(i3>0&&tArray[t3][i3-1]==tArray[t3][i3]){
+tArray[t3][i3]=tArray[t3][i3]+tArray[t3][i3-1];
+tArray[t3][i3-1]="";
+
+}
+
+
+if(zeno!=0){
+tArray[t3][i3+zeno]=tArray[t3][i3];
+tArray[t3][i3]="";
+}
+
+
+}
+
+
+
+
+
+}
+
+
+zeno=0;
+}
+output();
+display();
+zeno=0;
+}
+
+function right(){
+for(var i3=0;i3<4;i3++){
+for(var t3=0;t3<4;t3++){
+if(tArray[t3][i3]==""){
+zeno++;
+}
+else if((zeno!=0)&&(t3>zeno)&&(tArray[t3-1-zeno][i3]==tArray[t3][i3])){
+tArray[t3-1-zeno][i3]=tArray[t3-1-zeno][i3]+tArray[t3][i3];
+tArray[t3][i3]="";
+zeno++;
+}
+else{
+
+if(t3<3&&tArray[t3+1][i3]==tArray[t3][i3]){
+tArray[t3][i3]=tArray[t3][i3]+tArray[t3+1][i3];
+tArray[t3+1][i3]="";
+
+}
+
+
+if(zeno!=0){
+tArray[t3-zeno][i3]=tArray[t3][i3];
+tArray[t3][i3]="";
+}
+
+
+}
+
+
+
+
+
+}
+
+
+zeno=0;
+}
+output();
+display();
+zeno=0;
+}
+
+function left(){
+for(var i3=0;i3<4;i3++){
+for(var t3=3;t3>=0;t3--){
+if(tArray[t3][i3]==""){
+zeno++;
+}
+else if((zeno!=0)&&(t3+1+zeno<4)&&(tArray[t3+1+zeno][i3]==tArray[t3][i3])){
+tArray[t3+1+zeno][i3]=tArray[t3+1+zeno][i3]+tArray[t3][i3];
+tArray[t3][i3]="";
+zeno++;
+}
+else{
+
+if(t3>0&&tArray[t3-1][i3]==tArray[t3][i3]){
+tArray[t3][i3]=tArray[t3][i3]+tArray[t3-1][i3];
+tArray[t3-1][i3]="";
+
+}
+
+
+if(zeno!=0){
+tArray[t3+zeno][i3]=tArray[t3][i3];
+tArray[t3][i3]="";
+}
+
+
+}
+
+
+
+
+
+}
+
+
+zeno=0;
+}
+output();
+display();
+zeno=0;
+
+}
+function output(){
+produce();
+if(Math.random()>0.5)
+tArray[locx][locy]=4;
+else
+tArray[locx][locy]=2;
+}
+
+</script>
+</body>
+
+</html> 
